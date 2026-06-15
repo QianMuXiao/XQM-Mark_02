@@ -40,9 +40,9 @@ The attention blocks can use xFormers/FlashAttention when available. If xFormers
 
 ## Dataset
 
-This work uses the LLD-MMRI dataset for multi-phase liver lesion MRI analysis. The dataset is not redistributed in this repository. Please refer to the official dataset release/challenge page for access and usage terms:
+This work uses the LLD-MMRI dataset for multi-phase liver lesion MRI analysis. The dataset is not redistributed in this repository. Please refer to the official dataset repository for access and usage terms:
 
-- LLD-MMRI dataset: https://bit.ly/3IyYlgN
+- LLD-MMRI dataset: https://github.com/LMMMEng/LLD-MMRI-Dataset
 
 After preprocessing the original 3D volumes into paired 2D slices, the dataset loader expects the following structure:
 
