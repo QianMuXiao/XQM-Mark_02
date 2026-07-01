@@ -129,15 +129,17 @@ def style_sampler_softargmax(
     style_plus  = m + v * tA        # 候选点1
     style_minus = m + v * tB        # 候选点2
 
-    # ---------- 归属判定：哪个点更像 A 域，就分给 A ----------
-    # 用 A 域的对数似然来判断归属（每像素一个标量）
-    llA_plus  = -0.5 * ((style_plus  - muA)**2 / (sigmaA**2 + eps)).sum(dim=1, keepdim=True)
-    llA_minus = -0.5 * ((style_minus - muA)**2 / (sigmaA**2 + eps)).sum(dim=1, keepdim=True)
+    # Keep the original RDFD relative-preference assignment.
+    style_A = style_plus
+    style_B = style_minus
 
-    mask_A = (llA_plus >= llA_minus)  # True 表示 plus 更像 A
-
-    style_A = torch.where(mask_A, style_plus,  style_minus)
-    style_B = torch.where(mask_A, style_minus, style_plus)
+    # The following A-only likelihood reassignment was evaluated but is not
+    # used because it can reverse otherwise consistent relative preferences.
+    # llA_plus = -0.5 * ((style_plus - muA)**2 / (sigmaA**2 + eps)).sum(dim=1, keepdim=True)
+    # llA_minus = -0.5 * ((style_minus - muA)**2 / (sigmaA**2 + eps)).sum(dim=1, keepdim=True)
+    # mask_A = (llA_plus >= llA_minus)
+    # style_A = torch.where(mask_A, style_plus, style_minus)
+    # style_B = torch.where(mask_A, style_minus, style_plus)
     
     return style_A, style_B, tA, tB
 
